@@ -210,6 +210,9 @@ class _BuildFormState extends State<BuildForm> {
                     onPressed: () {
                       //debugPrint(DateFormat.yMMMd().format(DateTime.now()));
                       if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        final formData = _formKey.currentState?.value;
+                        debugPrint(formData.toString());
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Berhasil')),
                         );
