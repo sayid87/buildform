@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
 
 class BuildForm extends StatefulWidget {
   const BuildForm({super.key});
@@ -25,7 +26,7 @@ class _BuildFormState extends State<BuildForm> {
           child: Container(
         padding: const EdgeInsets.all(10),
         child: FormBuilder(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          //autovalidateMode: AutovalidateMode.onUserInteraction,
           key: _formKey,
           child: Column(
             children: [
@@ -55,6 +56,44 @@ class _BuildFormState extends State<BuildForm> {
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
                       errorText: "Alamat wajib diisi"),
+                ]),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FormBuilderSlider(
+                initialValue: 0,
+                min: 0,
+                max: 10,
+                //key: _emailFieldKey,
+                numberFormat: NumberFormat("0 Tahun"),
+                decoration: const InputDecoration(
+                    labelText: "Lama Pengalaman ",
+                    border: InputBorder.none,
+                    alignLabelWithHint: true),
+                name: 'txt_lama',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.min(1,
+                      errorText: "Lama Pengalaman wajib diisi minimal 1 tahun"),
+                ]),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FormBuilderDateTimePicker(
+                inputType: InputType.date,
+                //key: _emailFieldKey,
+                format: DateFormat("yyyy-MM-dd"),
+                // initialDatePickerMode: DatePickerMode.year,
+                //timePickerInitialEntryMode: TimePickerEntryMode.inputOnly,
+                decoration: const InputDecoration(
+                    labelText: "Tanggal Lahir",
+                    border: OutlineInputBorder(),
+                    alignLabelWithHint: true),
+                name: 'txt_tanggal',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: "Tanggal Lahir wajib diisi"),
                 ]),
               ),
               const SizedBox(
@@ -169,9 +208,12 @@ class _BuildFormState extends State<BuildForm> {
                 alignment: Alignment.topLeft,
                 child: ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Berhasil')),
-                      );
+                      //debugPrint(DateFormat.yMMMd().format(DateTime.now()));
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Berhasil')),
+                        );
+                      }
                     },
                     child: const Text("Daftar")),
               )
